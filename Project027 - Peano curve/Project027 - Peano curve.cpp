@@ -18,7 +18,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
-int sizeofsqr = 25;
+int sizeofsqr = 15;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -164,22 +164,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
                 Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
 
-                if (sqr_centre.x + 3 * sizeofsqr > width) {
+                if (sqr_centre.y + 2.5 * sizeofsqr > height) {
+
+                    isDrawing = false;
+
+                }
+                else if (sqr_centre.x + 2.5 * sizeofsqr > width) {
 
                     sqr_centre.x = sizeofsqr;
                     sqr_centre.y = sqr_centre.y + 2 * sizeofsqr;
-
-                }
-                else if (sqr_centre.y + 3 * sizeofsqr > height) {
-
-                    isDrawing = false;
 
                 }
                 else {
 
                     sqr_centre.x = sqr_centre.x + 2 * sizeofsqr;
 
-               }
+                }
+
             }
 
             EndPaint(hWnd, &ps);
