@@ -158,7 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 int width, height;
 
                 RECT rect;
-                GetWindowRect(hWnd, &rect);
+                GetClientRect(hWnd, &rect);
                 width = rect.right - rect.left;
                 height = rect.bottom - rect.top;
 
