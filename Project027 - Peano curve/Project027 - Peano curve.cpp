@@ -129,7 +129,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {   
-    static bool isDrawing = true;
+
     static POINT sqr_centre = { sqr_centre.x = sizeofsqr, sqr_centre.y = sizeofsqr };
     switch (message)
     {
@@ -154,40 +154,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            while (isDrawing) {
-                int width, height;
+            int width, height;
 
-                RECT rect;
-                GetClientRect(hWnd, &rect);
-                width = rect.right - rect.left;
-                height = rect.bottom - rect.top;
+            RECT rect;
+            GetClientRect(hWnd, &rect);
+            width = rect.right - rect.left;
+            height = rect.bottom - rect.top;
 
-                Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
+            int numofsqrcolumns = (width / sizeofsqr);
+            int numofsqrrows = (height / sizeofsqr);
 
-                if (sqr_centre.y + 2.5 * sizeofsqr > height) {
+            for (int i = 0; i < numofsqrrows; sqr_centre.y += sizeofsqr * 2, i++) {
 
-                    isDrawing = false;
+                for (int j = 0; j < numofsqrcolumns; sqr_centre.x += sizeofsqr * 2, j++) {
 
-                }
-                else if (sqr_centre.x + 2.5 * sizeofsqr > width) {
-
-                    sqr_centre.x = sizeofsqr;
-                    sqr_centre.y = sqr_centre.y + 2 * sizeofsqr;
+                    Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
 
                 }
-                else {
-
-                    sqr_centre.x = sqr_centre.x + 2 * sizeofsqr;
-
-                }
+                sqr_centre.x = sizeofsqr;
 
             }
+            
+            
 
             EndPaint(hWnd, &ps);
         }
         break;
     case WM_SIZE:
-        isDrawing = true;
         sqr_centre.x = sizeofsqr, sqr_centre.y = sizeofsqr;
         InvalidateRect(hWnd, NULL, TRUE);
         break;
