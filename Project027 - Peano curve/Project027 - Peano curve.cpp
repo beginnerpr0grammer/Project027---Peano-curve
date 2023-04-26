@@ -129,7 +129,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {   
-    static bool isDrawing = false;
+    static bool isDrawing = true;
+    static POINT sqr_centre = { sqr_centre.x = sizeofsqr, sqr_centre.y = sizeofsqr };
     switch (message)
     {
     case WM_COMMAND:
@@ -155,7 +156,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hWnd, &ps);
             while (isDrawing) {
                 int width, height;
-                static POINT sqr_centre = { sqr_centre.x = sizeofsqr, sqr_centre.y = sizeofsqr };
 
                 RECT rect;
                 GetWindowRect(hWnd, &rect);
@@ -164,11 +164,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
                 Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
 
-                if (sqr_centre.x + 2 * sizeofsqr > width) {
+                if ((sqr_centre.x + 2 * sizeofsqr) > width) {
 
                     sqr_centre.x = sizeofsqr;
                     sqr_centre.y = sqr_centre.y + 2 * sizeofsqr;
-                    //InvalidateRect(hWnd, NULL, FALSE);
 
                 }
                 else if (sqr_centre.y + 2 * sizeofsqr > height) {
@@ -179,7 +178,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 else {
 
                     sqr_centre.x = sqr_centre.x + 2 * sizeofsqr;
-                    //InvalidateRect(hWnd, NULL, FALSE);
 
                }
             }
@@ -189,6 +187,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_SIZE:
         isDrawing = true;
+        sqr_centre.x = sizeofsqr, sqr_centre.y = sizeofsqr;
         InvalidateRect(hWnd, NULL, TRUE);
         break;
     case WM_DESTROY:
