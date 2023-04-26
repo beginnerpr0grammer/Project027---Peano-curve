@@ -18,7 +18,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
-int sizeofsqr = 15;
+int sizeofsqr = 25;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -161,8 +161,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             width = rect.right - rect.left;
             height = rect.bottom - rect.top;
 
-            int numofsqrcolumns = (width / sizeofsqr);
-            int numofsqrrows = (height / sizeofsqr);
+            int numofsqrcolumns = (width / sizeofsqr) / 2;
+            int numofsqrrows = (height / sizeofsqr) / 2;
 
             for (int i = 0; i < numofsqrrows; sqr_centre.y += sizeofsqr * 2, i++) {
 
