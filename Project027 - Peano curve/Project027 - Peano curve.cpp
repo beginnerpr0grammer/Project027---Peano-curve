@@ -164,13 +164,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
                 Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
 
-                if ((sqr_centre.x + 2 * sizeofsqr) > width) {
+                if (sqr_centre.x + 3 * sizeofsqr > width) {
 
                     sqr_centre.x = sizeofsqr;
                     sqr_centre.y = sqr_centre.y + 2 * sizeofsqr;
 
                 }
-                else if (sqr_centre.y + 2 * sizeofsqr > height) {
+                else if (sqr_centre.y + 3 * sizeofsqr > height) {
 
                     isDrawing = false;
 
