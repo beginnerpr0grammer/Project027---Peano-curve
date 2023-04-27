@@ -125,7 +125,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 //
 
+void peano(HDC hdc, int x, int y, int width, int height) {
 
+    Rectangle(hdc, x - 1, y, x + 1, y - 4 * sizeofsqr);
+    Rectangle(hdc, x - 2 * sizeofsqr, y - 4 * sizeofsqr - 1, x + 1, y - 4 * sizeofsqr + 1);
+    Rectangle(hdc, x - 2 * sizeofsqr - 1, y - 4 * sizeofsqr, x - 2 * sizeofsqr + 1, y);
+    Rectangle(hdc, x - 2 * sizeofsqr, y - 1, x - 4 * sizeofsqr, y + 1);
+    Rectangle(hdc, x - 4 * sizeofsqr - 1, y, x - 4 * sizeofsqr + 1, y - 4 * sizeofsqr);
+
+    Rectangle(hdc, x - 4 * sizeofsqr + 1, y - 4 * sizeofsqr, x - 4 * sizeofsqr - 1, y - 6 * sizeofsqr);
+
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {   
@@ -156,6 +166,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hWnd, &ps);
             int width, height;
 
+            SelectObject(hdc, GetStockObject(DC_BRUSH));
+            SetDCBrushColor(hdc, RGB(255, 255, 255));
+
             RECT rect;
             GetClientRect(hWnd, &rect);
             width = rect.right - rect.left;
@@ -164,18 +177,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             int numofsqrcolumns = (width / sizeofsqr) / 2;
             int numofsqrrows = (height / sizeofsqr) / 2;
 
+            int bottomsqrx = 0, bottomsqry = 0;
+
             for (int i = 0; i < numofsqrrows; sqr_centre.y += sizeofsqr * 2, i++) {
 
                 for (int j = 0; j < numofsqrcolumns; sqr_centre.x += sizeofsqr * 2, j++) {
 
                     Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
+                    bottomsqrx = sqr_centre.x;
+                    bottomsqry = sqr_centre.y;
 
                 }
+
                 sqr_centre.x = sizeofsqr;
 
             }
             
-            
+            SelectObject(hdc, GetStockObject(DC_PEN));
+            SetDCPenColor(hdc, RGB(255, 0, 0));
+
+            peano(hdc, bottomsqrx, bottomsqry, width, height);
 
             EndPaint(hWnd, &ps);
         }
