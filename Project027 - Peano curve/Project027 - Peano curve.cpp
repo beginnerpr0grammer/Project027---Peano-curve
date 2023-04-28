@@ -18,7 +18,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
-int sizeofsqr = 25;
+int sizeofsqr = 5;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -136,6 +136,27 @@ void peano(HDC hdc, int x, int y, int width, int height) {
     Rectangle(hdc, x - 4 * sizeofsqr + 1, y - 4 * sizeofsqr, x - 4 * sizeofsqr - 1, y - 6 * sizeofsqr);
 
 }
+//void set_points(POINT A, POINT B, POINT C, POINT D, POINT E, POINT F, int bottomsqrx, int bottomsqry, bool undef) {
+//
+//    if (undef) {
+//
+//        A.x = bottomsqrx;
+//        A.y = bottomsqry;
+//        B.x = A.x;
+//        B.y = A.y - 4 * sizeofsqr;
+//        C.x = B.x - 2 * sizeofsqr;
+//        C.y = B.y;
+//        D.x = A.x - 2 * sizeofsqr;
+//        D.y = A.y;
+//        E.x = D.x - 2 * sizeofsqr;
+//        E.y = D.y;
+//        F.x = C.x - 2 * sizeofsqr;
+//        F.y = C.y;
+//
+//    } 
+//
+//
+//}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {   
@@ -181,7 +202,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             for (int i = 0; i < numofsqrrows; sqr_centre.y += sizeofsqr * 2, i++) {
 
-                for (int j = 0; j < numofsqrcolumns; sqr_centre.x += sizeofsqr * 2, j++) {
+                for (int j = 0; j < numofsqrrows /*numofsqrcolumns*/ ; sqr_centre.x += sizeofsqr * 2, j++) {
 
                     Rectangle(hdc, sqr_centre.x - sizeofsqr / 2, sqr_centre.y - sizeofsqr / 2, sqr_centre.x + sizeofsqr / 2, sqr_centre.y + sizeofsqr / 2);
                     bottomsqrx = sqr_centre.x;
@@ -196,8 +217,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             SelectObject(hdc, GetStockObject(DC_PEN));
             SetDCPenColor(hdc, RGB(255, 0, 0));
 
+            //POINT A, B , C, D, E, F;
+            //bool startptsundef = true;
+            //set_points(A, B, C, D, E, F, bottomsqrx, bottomsqry, startptsundef);
+            //peano(hdc, A, B, C, D, E, F);
             peano(hdc, bottomsqrx, bottomsqry, width, height);
-
             EndPaint(hWnd, &ps);
         }
         break;
